@@ -1,0 +1,9 @@
+#! /bin/sh
+
+if [ "$DEBUG" = "True" ]; then
+    python /root/api_server.py
+else
+    gunicorn --bind 0.0.0.0:5000 --workers $WORKERS --access-logfile - --error-logfile - --log-level info api_server:app
+fi
+
+exec "$@"

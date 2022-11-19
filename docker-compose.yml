@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  pywright:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+
+    image: pywright
+    container_name: pywright
+    ports:
+      - "5000:5000"
+    environment:
+      - WORKERS=2
+      - DEBUG=True
+    volumes:
+      - ./:/root:z
+    # command: ["python", "/root/api_server.py"]

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pywright - Playwright API Server writen in Python</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+    <style>
+      .info {
+        color: #fff;
+        text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
+          0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      @keyframes flicker {
+        0%,
+        18%,
+        22%,
+        25%,
+        53%,
+        57%,
+        100% {
+          text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
+            0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
+        }
+        20%,
+        24%,
+        55% {
+          text-shadow: none;
+        }
+      }
+
+      .footer {
+        animation: flicker 5.5s infinite alternate;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+      @media (max-width: 812px) {
+        pre {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h3>
+      <a href="https://pywright.fly.dev">Pywright</a> - Playwright API Server
+    </h3>
+    <p>
+      <strong>Pywright</strong> is a API service writen in python that use
+      Playwright to render javascript websites. You can easily deploy it to any
+      cloud provider then use it as a service.
+    </p>
+
+    <h4>How to use</h4>
+
+    <p>Just use `POST` method to send a request to the server.</p>
+
+    <p>The request body must be a JSON object with 1 field: `url`.</p>
+
+    <pre>
+{
+    "url": "https://pywright.fly.dev"
+}
+</pre
+    >
+
+    <p>The response will be a HTML string of the website.</p>
+
+    <h4>Examples</h4>
+
+    <blockquote>
+      <p>
+        Replace <strong>http://localhost:5000</strong> to your IP or domain if
+        you've deployed to cloud server.
+      </p>
+      <p>
+        For demo: using
+        <a
+          href="https://pywright.fly.dev
+"
+          >https://pywright.fly.dev</a
+        >
+      </p>
+    </blockquote>
+
+    <p>Example with `httpie`:</p>
+
+    <pre>
+http POST http://localhost:5000/scrape url=https://pywright.fly.dev
+</pre
+    >
+
+    <p>or with `curl`:</p>
+
+    <pre>
+curl -X POST -H "Content-Type: application/json" -d '{"url": "https://pywright.fly.dev"}' http://localhost:5000/scrape
+</pre
+    >
+
+    <p>or with `requests`:</p>
+
+    <pre>
+import requests
+
+url = "http://localhost:5000/scrape"
+
+html = requests.post(url, json={"url": "https://pywright.fly.dev"}).text
+
+print(html)
+</pre
+    >
+
+    <script>
+      // Replace "`text`"" with "<span class='info'>text</span>""
+      document.querySelectorAll("p").forEach((pre) => {
+        pre.innerHTML = pre.innerHTML
+          .replaceAll("`", "<span class='info'>")
+          .replaceAll("`", "</span>");
+      });
+    </script>
+
+    <p class="center footer">
+      Made with ❤️ by <a href="https://github.com/tudoanh">@tudoanh</a>
+    </p>
+  </body>
+</html>
