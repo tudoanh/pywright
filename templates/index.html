@@ -36,13 +36,18 @@
       }
 
       .footer {
-        animation: flicker 5.5s infinite alternate;
+        animation: flicker 4.2s infinite alternate;
         margin-top: 50px;
         margin-bottom: 50px;
       }
 
       .bash {
+        color: var(--accent);
         user-select: none;
+      }
+
+      code {
+        color: var(--text);
       }
 
       @media (max-width: 812px) {
@@ -54,11 +59,11 @@
   </head>
   <body>
     <h3>
-      <a href="https://github.com/tudoanh/pywright">Pywright</a> - Playwright
-      API Server
+      <a href="https://github.com/tudoanh/pywright" target="_blank">Pywright</a>
+      - Playwright API Server
     </h3>
     <p>
-      <strong>Pywright</strong> is a API service writen in python that use
+      <strong>`Pywright`</strong> is a API service writen in python that use
       Playwright to render javascript websites. You can easily deploy it to any
       cloud provider then use it as a service.
     </p>
@@ -73,7 +78,7 @@
     </p>
 
     <p>
-      Deploy it to <code>fly.io</code> if you want remote access to your
+      Deploy it to <code>`fly.io`</code> if you want remote access to your
       service.
     </p>
 
@@ -120,7 +125,7 @@ $ flyctl deploy
 
     <h4 id="how-to-use">How to use</h4>
 
-    <p>Just use `POST` method to send a request to the server.</p>
+    <p>Just use <code>`POST`</code> method to send a request to the server.</p>
 
     <p>The request body must be a JSON object with 1 field: `url`.</p>
 
