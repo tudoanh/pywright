@@ -41,6 +41,10 @@
         margin-bottom: 50px;
       }
 
+      .bash {
+        user-select: none;
+      }
+
       @media (max-width: 812px) {
         pre {
           font-size: 0.9rem;
@@ -50,7 +54,8 @@
   </head>
   <body>
     <h3>
-      <a href="https://pywright.fly.dev">Pywright</a> - Playwright API Server
+      <a href="https://github.com/tudoanh/pywright">Pywright</a> - Playwright
+      API Server
     </h3>
     <p>
       <strong>Pywright</strong> is a API service writen in python that use
@@ -58,7 +63,62 @@
       cloud provider then use it as a service.
     </p>
 
-    <h4>How to use</h4>
+    <div id="toc"></div>
+
+    <h4 id="install">Install</h4>
+
+    <p>
+      You can either pull my pre-build docker image or build it yourself to run
+      on local.
+    </p>
+
+    <p>
+      Deploy it to <code>fly.io</code> if you want remote access to your
+      service.
+    </p>
+
+    <blockquote>
+      To disable DEBUG mode, set <code>DEBUG</code> environment variable to
+      <code>False</code>
+    </blockquote>
+    <h5 id="prebuild">Pre-build docker image</h5>
+
+    <pre>
+<code>$ docker pull doanhtu/pywright:latest
+$ docker run -p 5000:5000 doanhtu/pywright:latest --name pywright
+</code></pre>
+
+    <h5 id="diy">Build it yourself</h5>
+
+    <pre>
+<code># with docker-compose
+
+$ git clone https://github.com/tudoanh/pywright.git
+$ cd pywright
+$ docker-compose up --build -d
+
+$ docker-compose logs -f
+</code></pre>
+
+    <h5 id="fly">Deploy to fly.io</h5>
+
+    <pre>
+<code>$ git clone https://github.com/tudoanh/pywright.git
+$ cd pywright
+
+# Remember to change the app name
+$ fly scale memory 512  # Need at least 512MB of memory
+$ flyctl deploy
+</code></pre>
+
+    <blockquote>
+      <p>
+        Source code is available at
+        <a href="https://github.com/tudoanh/pywright" target="_blank">Github</a>
+      </p>
+    </blockquote>
+
+    <h4 id="how-to-use">How to use</h4>
 
     <p>Just use `POST` method to send a request to the server.</p>
 
@@ -73,7 +133,7 @@
 
     <p>The response will be a HTML string of the website.</p>
 
-    <h4>Examples</h4>
+    <h4 id="examples">Examples</h4>
 
     <blockquote>
       <p>
@@ -93,14 +153,14 @@
     <p>Example with `httpie`:</p>
 
     <pre>
-http POST http://localhost:5000/scrape url=https://pywright.fly.dev
+$ http POST http://localhost:5000/scrape url=https://pywright.fly.dev
 </pre
     >
 
     <p>or with `curl`:</p>
 
     <pre>
-curl -X POST -H "Content-Type: application/json" -d '{"url": "https://pywright.fly.dev"}' http://localhost:5000/scrape
+$ curl -X POST -H "Content-Type: application/json" -d '{"url": "https://pywright.fly.dev"}' http://localhost:5000/scrape
 </pre
     >
 
@@ -123,6 +183,30 @@ print(html)
         pre.innerHTML = pre.innerHTML
           .replaceAll("`", "<span class='info'>")
           .replaceAll("`", "</span>");
+      });
+
+      // Replace $ with <span class="bash">$</span>
+      document.querySelectorAll("pre").forEach((pre) => {
+        pre.innerHTML = pre.innerHTML.replaceAll(
+          "$",
+          "<span class='bash'>$</span>"
+        );
+      });
+
+      // Generate TOC list for every heading with it's ID, with h5 is sub list of h4
+      const toc = document.getElementById("toc");
+      const headings = document.querySelectorAll("h4, h5");
+      const tocList = document.createElement("ul");
+      tocList.classList.add("list");
+      toc.appendChild(tocList);
+
+      headings.forEach((heading) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = `#${heading.id}`;
+        a.innerText = heading.innerText;
+        li.appendChild(a);
+        tocList.appendChild(li);
       });
     </script>
 

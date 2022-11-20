@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template
 from flask import request
 from playwright.sync_api import sync_playwright
@@ -24,4 +25,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(threaded=False, host="0.0.0.0", port=5000, debug=True)
+    app.run(threaded=False, host="0.0.0.0", port=5000, debug=False)

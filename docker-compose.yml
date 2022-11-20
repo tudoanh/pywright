@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile
 
-    image: pywright
+    image: doanhtu/pywright:latest
     container_name: pywright
     ports:
       - "5000:5000"
