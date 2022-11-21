@@ -9,8 +9,7 @@ COPY ./entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-COPY ./api_server.py ./api_server.py
-COPY ./templates ./templates
+COPY ./src ./
 
 EXPOSE 5000
 
