@@ -14,7 +14,6 @@ class URL(BaseModel):
 
 
 # create a view that take POST request contain url param, and return the html
-# @app.route("/scrape", methods=["POST"])
 @app.post("/scrape")
 async def scrape(url: URL):
     async with async_playwright() as pw:

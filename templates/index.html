@@ -54,6 +54,10 @@
         pre {
           font-size: 0.9rem;
         }
+
+        .mobile-hidden {
+          display: none; // doesn't display in the browser.
+        }
       }
     </style>
   </head>
@@ -67,9 +71,36 @@
       Playwright to render javascript websites. You can easily deploy it to any
       cloud provider then use it as a service.
     </p>
+    <div>
+      <script
+        id="asciicast-538902"
+        src="https://asciinema.org/a/538902.js"
+        async
+      ></script>
+    </div>
 
-    <div id="toc"></div>
+    <div id="table-of-content"></div>
 
+    <section>
+      <h4 id="demo">Try it now</h4>
+      <p>Enter a Javascript website you want to render</p>
+      <form action="/scrape">
+        <input
+          type="text"
+          name="url"
+          placeholder="https://pywright.fly.dev/"
+          value="https://pywright.fly.dev/"
+        />
+        <button type="submit">Render</button>
+      </form>
+      <pre
+        id="result"
+        style="max-width: 100%; max-height: 420px"
+        class="language-plaintext"
+      >
+The website's HTML will be rendered here</pre
+      >
+    </section>
     <h4 id="install">Install</h4>
 
     <p>
@@ -199,7 +230,7 @@ print(html)
       });
 
       // Generate TOC list for every heading with it's ID, with h5 is sub list of h4
-      const toc = document.getElementById("toc");
+      const toc = document.getElementById("table-of-content");
       const headings = document.querySelectorAll("h4, h5");
       const tocList = document.createElement("ul");
       tocList.classList.add("list");
@@ -213,10 +244,38 @@ print(html)
         li.appendChild(a);
         tocList.appendChild(li);
       });
+
+      // When user submit URL they want to render in the form, send a request to the /scrape then show raw HTML in the <pre id="result"> tag
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const url = e.target.url.value;
+        const result = document.getElementById("result");
+        result.innerText = "Loading...";
+        fetch(e.target.action, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url }),
+        })
+          .then((res) => res.text())
+          .then((html) => {
+            result.innerText = html;
+          });
+      });
     </script>
 
     <p class="center footer">
       Made with ❤️ by <a href="https://github.com/tudoanh">@tudoanh</a>
     </p>
+    <noscript>
+      <img
+        src="https://analytic.doanhtu.com/ingress/afbfc007-aa38-4732-8f0d-fee27afce7e1/pixel.gif"
+      />
+    </noscript>
+    <script
+      defer
+      src="https://analytic.doanhtu.com/ingress/afbfc007-aa38-4732-8f0d-fee27afce7e1/script.js"
+    ></script>
   </body>
 </html>
