@@ -7,6 +7,23 @@
     <title>Pywright - Playwright API Server writen in Python</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
     <style>
+      :root {
+        color-scheme: dark;
+        --bg: #212121;
+        --accent-bg: #2b2b2b;
+        --text: #dcdcdc;
+        --text-light: #ababab;
+        --accent: #ffb300;
+        --code: #f06292;
+        --preformatted: #ccc;
+        --disabled: #111;
+      }
+      /* Add a bit of transparency so light media isn't so glaring in dark mode */
+      img,
+      video {
+        opacity: 0.8;
+      }
+
       .info {
         color: #fff;
         text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
@@ -98,7 +115,10 @@
         style="max-width: 100%; max-height: 420px"
         class="language-plaintext"
       >
-The website's HTML will be rendered here</pre
+The website's HTML will be render here</pre
+      >
+      <pre id="capture" style="max-width: 100%; max-height: 420px">
+Screenshot of the website will be render here</pre
       >
     </section>
     <h4 id="install">Install</h4>
@@ -156,14 +176,14 @@ $ flyctl deploy
 
     <h4 id="how-to-use">How to use</h4>
 
-    <p>Just use <code>`POST`</code> method to send a request to the server.</p>
+    <p>
+      Just send <code>`POST`</code> request to endpoint <code>`/scrape`</code>.
+    </p>
 
-    <p>The request body must be a JSON object with 1 field: `url`.</p>
+    <p>JSON request body:</p>
 
     <pre>
-{
-    "url": "https://pywright.fly.dev"
-}
+{"url": "https://pywright.fly.dev"}
 </pre
     >
 
@@ -245,11 +265,13 @@ print(html)
         tocList.appendChild(li);
       });
 
-      // When user submit URL they want to render in the form, send a request to the /scrape then show raw HTML in the <pre id="result"> tag
+      // When user submit URL they want to render in the form, send a request to the /scrape then show raw HTML in the <pre id="result"> tag, image in <pre id="capture"> tag
       document.querySelector("form").addEventListener("submit", (e) => {
         e.preventDefault();
         const url = e.target.url.value;
         const result = document.getElementById("result");
+        const capture = document.getElementById("capture");
+        capture.innerHTML = "Loading...";
         result.innerText = "Loading...";
         fetch(e.target.action, {
           method: "POST",
@@ -262,6 +284,18 @@ print(html)
           .then((html) => {
             result.innerText = html;
           });
+        fetch(e.target.action, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url, capture: true }),
+        }).then((res) => {
+          res.blob().then((blob) => {
+            const url = URL.createObjectURL(blob);
+            capture.innerHTML = `<img src="${url}" />`;
+          });
+        });
       });
     </script>
 
